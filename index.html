@@ -1,0 +1,3462 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1976d2">
+
+<title>my little boy</title>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@400;600;700&display=swap"
+  rel="stylesheet"
+>
+
+<style>
+
+/* =========================================================
+   COLOR SYSTEM
+========================================================= */
+
+:root {
+  --blue: #1976d2;
+  --blue-dark: #0d47a1;
+  --blue-light: #42a5f5;
+  --blue-soft: #e3f2fd;
+  --blue-pale: #f0f8ff;
+  --blue-border: #90caf9;
+
+  --white: #ffffff;
+  --text: #15324b;
+  --muted: #66839d;
+
+  --danger: #e53935;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  padding: 14px;
+
+  display: grid;
+  place-items: center;
+
+  overflow-x: hidden;
+
+  font-family: "Nunito", sans-serif;
+  color: var(--text);
+
+  background:
+    radial-gradient(
+      circle at 10% 15%,
+      #ffffff 0 3px,
+      transparent 4px
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      #90caf9 0 4px,
+      transparent 5px
+    ),
+    linear-gradient(
+      145deg,
+      #e3f2fd,
+      #bbdefb,
+      #eaf6ff
+    );
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================================================
+   CONFETTI
+========================================================= */
+
+#confettiCanvas {
+  position: fixed;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+  z-index: 100;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app {
+  width: 100%;
+  max-width: 390px;
+  min-height: 600px;
+
+  position: relative;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  border: 5px solid white;
+  border-radius: 30px;
+
+  background: #fbfdff;
+
+  box-shadow:
+    0 25px 70px rgba(13, 71, 161, .25);
+}
+
+.app::before,
+.app::after {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  width: 125px;
+  height: 125px;
+
+  border-radius: 50%;
+
+  background: #d7ecff;
+}
+
+.app::before {
+  top: 100px;
+  left: -75px;
+}
+
+.app::after {
+  right: -75px;
+  bottom: 70px;
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 18px 19px 13px;
+}
+
+.brand {
+  color: var(--blue);
+
+  font-size: 13px;
+  font-weight: 900;
+
+  letter-spacing: .5px;
+}
+
+.top-heart {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  color: var(--blue);
+
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.counter {
+  padding: 6px 12px;
+
+  background: var(--blue-soft);
+
+  border: 1px solid var(--blue-border);
+
+  border-radius: 30px;
+
+  font-size: 11px;
+  font-weight: 900;
+
+  color: var(--blue-dark);
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress {
+  height: 5px;
+  margin: 0 19px;
+
+  background: #dbeeff;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 14.28%;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      #64b5f6,
+      #1976d2,
+      #0d47a1
+    );
+
+  transition: width .5s ease;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page {
+  display: none;
+
+  min-height: 510px;
+
+  padding: 25px 20px 28px;
+
+  text-align: center;
+
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.page.active {
+  display: flex;
+  animation: pageEnter .45s ease both;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* =========================================================
+   TAG
+========================================================= */
+
+.tag {
+  padding: 7px 13px;
+
+  border-radius: 30px;
+
+  background: var(--blue-soft);
+
+  border: 1px dashed var(--blue-border);
+
+  color: var(--blue-dark);
+
+  font-size: 10px;
+  font-weight: 900;
+
+  letter-spacing: 1.4px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   STICKER
+========================================================= */
+
+.sticker-wrap {
+  width: 150px;
+  height: 150px;
+
+  margin: 20px auto 15px;
+
+  display: grid;
+  place-items: center;
+
+  position: relative;
+
+  border-radius: 45%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #eef8ff,
+      #cfe9ff
+    );
+
+  border: 2px dashed var(--blue);
+
+  box-shadow: 0 8px 0 #d8edff;
+
+  animation: stickerFloat 3s ease-in-out infinite;
+}
+
+.sticker-wrap::before {
+  content: "✦";
+
+  position: absolute;
+
+  top: 5px;
+  right: 7px;
+
+  color: var(--blue);
+
+  font-size: 24px;
+}
+
+.sticker-wrap::after {
+  content: "✧";
+
+  position: absolute;
+
+  bottom: 8px;
+  left: 7px;
+
+  color: var(--blue);
+
+  font-size: 22px;
+}
+
+@keyframes stickerFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+
+  50% {
+    transform: translateY(-7px) rotate(2deg);
+  }
+}
+
+.sticker {
+  width: 84%;
+  height: 84%;
+
+  object-fit: contain;
+
+  position: relative;
+  z-index: 1;
+}
+
+
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
+
+h1 {
+  font-size: clamp(27px, 8vw, 34px);
+
+  font-weight: 900;
+
+  line-height: 1.2;
+
+  letter-spacing: -.7px;
+
+  margin: 15px 0 12px;
+}
+
+h1 span {
+  color: var(--blue);
+}
+
+.description {
+  max-width: 285px;
+
+  font-family: "Quicksand", sans-serif;
+
+  font-size: 13px;
+
+  line-height: 1.9;
+
+  color: var(--muted);
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.primary,
+.secondary {
+  width: 100%;
+  max-width: 275px;
+
+  min-height: 49px;
+
+  padding: 13px 18px;
+
+  margin-top: 20px;
+
+  border-radius: 15px;
+
+  font-size: 13px;
+  font-weight: 900;
+
+  transition:
+    transform .15s,
+    box-shadow .15s;
+}
+
+.primary {
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #42a5f5,
+      #1976d2,
+      #0d47a1
+    );
+
+  box-shadow:
+    0 6px 0 #0a3d91,
+    0 10px 20px rgba(25, 118, 210, .25);
+}
+
+.primary:active {
+  transform: translateY(4px);
+
+  box-shadow:
+    0 2px 0 #0a3d91;
+}
+
+.secondary {
+  margin-top: 12px;
+
+  background: white;
+
+  border: 1px solid var(--blue-border);
+
+  color: var(--blue-dark);
+}
+
+.secondary:active {
+  transform: scale(.98);
+}
+
+.note {
+  font-size: 10px;
+
+  color: #7094af;
+
+  margin-top: 18px;
+
+  letter-spacing: .5px;
+}
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+.password-card {
+  width: 100%;
+
+  margin-top: 17px;
+
+  padding: 18px 15px;
+
+  border-radius: 23px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f3faff,
+      #e1f2ff
+    );
+
+  border: 1px solid #c4e3fa;
+
+  box-shadow: 0 7px 0 #d8edff;
+}
+
+.lock-icon {
+  width: 78px;
+  height: 78px;
+
+  margin: 0 auto 13px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #e3f2fd,
+      #bbdefb
+    );
+
+  border: 2px dashed var(--blue);
+
+  font-size: 36px;
+
+  animation: stickerFloat 3s ease-in-out infinite;
+}
+
+.pin-display {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  margin: 13px 0 15px;
+}
+
+.pin-dot {
+  width: 13px;
+  height: 13px;
+
+  border-radius: 50%;
+
+  background: white;
+
+  border: 2px solid #90caf9;
+
+  transition: .2s;
+}
+
+.pin-dot.active {
+  background: var(--blue);
+
+  border-color: var(--blue);
+
+  transform: scale(1.12);
+
+  box-shadow:
+    0 0 8px rgba(33,150,243,.35);
+}
+
+.pin-dot.error {
+  background: #ef5350;
+  border-color: #ef5350;
+}
+
+.keypad {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 8px;
+
+  max-width: 255px;
+
+  margin: auto;
+}
+
+.key {
+  min-height: 43px;
+
+  border-radius: 13px;
+
+  background: white;
+
+  border: 1px solid #c5e3fa;
+
+  color: var(--blue-dark);
+
+  font-size: 15px;
+
+  font-weight: 900;
+
+  box-shadow: 0 3px 0 #d4ebfa;
+
+  transition: .12s;
+}
+
+.key:active {
+  transform: translateY(3px);
+
+  box-shadow: 0 0 0 #d4ebfa;
+}
+
+.key.clear {
+  color: var(--danger);
+}
+
+.key.enter {
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #42a5f5,
+      #1976d2
+    );
+
+  border-color: transparent;
+}
+
+.pin-message {
+  min-height: 18px;
+
+  margin-top: 10px;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  color: #78909c;
+}
+
+.pin-message.error {
+  color: var(--danger);
+
+  animation: shake .25s ease;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+
+/* =========================================================
+   ENVELOPE
+========================================================= */
+
+.envelope-area {
+  width: 100%;
+
+  height: 230px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin: 8px 0 0;
+
+  perspective: 1000px;
+}
+
+.envelope {
+  width: min(250px, 85%);
+  height: 155px;
+
+  position: relative;
+
+  cursor: pointer;
+
+  filter:
+    drop-shadow(
+      0 12px 12px rgba(25,118,210,.18)
+    );
+
+  isolation: isolate;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.env-back {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 0;
+
+  background: #bbdefb;
+
+  border: 1px solid #64b5f6;
+
+  border-radius: 10px;
+}
+
+.letter {
+  position: absolute;
+
+  z-index: 1;
+
+  left: 12px;
+  right: 12px;
+
+  bottom: 5px;
+
+  height: 132px;
+
+  padding: 12px 8px;
+
+  background: #ffffff;
+
+  border: 1px solid #cfe7fa;
+
+  border-radius: 8px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  transition:
+    transform .75s cubic-bezier(.2,.8,.2,1),
+    bottom .75s cubic-bezier(.2,.8,.2,1);
+}
+
+.letter img {
+  display: block;
+
+  width: 65px;
+  height: 65px;
+
+  object-fit: contain;
+}
+
+.letter p {
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+
+  color: var(--blue-dark);
+}
+
+.env-front {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 3;
+
+  border-radius: 10px;
+
+  background: var(--blue);
+
+  clip-path: polygon(
+    0 0,
+    50% 54%,
+    100% 0,
+    100% 100%,
+    0 100%
+  );
+}
+
+.env-flap {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 4;
+
+  border-radius: 10px;
+
+  background: var(--blue-light);
+
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    50% 57%
+  );
+
+  transform-origin: 50% 0%;
+
+  transition:
+    transform .55s ease,
+    z-index 0s .28s;
+
+  backface-visibility: hidden;
+}
+
+.seal {
+  position: absolute;
+
+  z-index: 5;
+
+  top: 54%;
+  left: 50%;
+
+  width: 39px;
+  height: 39px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  border: 2px solid white;
+
+  background: var(--blue-dark);
+
+  color: white;
+
+  font-size: 17px;
+
+  box-shadow:
+    0 3px 8px rgba(0,0,0,.18);
+
+  transition:
+    opacity .25s,
+    transform .25s;
+}
+
+.envelope.open .env-flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.envelope.open .letter {
+  bottom: 55px;
+  transform: translateY(-22px);
+}
+
+.envelope.open .seal {
+  opacity: 0;
+
+  transform:
+    translate(-50%, -50%)
+    scale(.5);
+}
+
+.envelope:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 7px;
+}
+
+.tap-hint {
+  margin-top: 3px;
+
+  font-size: 11px;
+
+  color: #6f8ea7;
+}
+
+
+/* =========================================================
+   PHOTO SLIDER
+========================================================= */
+
+.photo-page {
+  width: 100%;
+}
+
+.photo-slider {
+  width: 100%;
+
+  margin-top: 17px;
+
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 22px;
+
+  background: #e7f4ff;
+
+  border: 1px solid #b8dcf7;
+
+  box-shadow: 0 7px 0 #d8edff;
+
+  touch-action: pan-y;
+}
+
+.photo-track {
+  display: flex;
+
+  width: 100%;
+
+  transition:
+    transform .45s cubic-bezier(.2,.8,.2,1);
+
+  will-change: transform;
+}
+
+.photo-slide {
+  min-width: 100%;
+
+  padding: 12px;
+}
+
+.photo-slide img {
+  display: block;
+
+  width: 100%;
+
+  height: 390px;
+
+  object-fit: contain;
+
+  object-position: center;
+
+  border-radius: 16px;
+
+  background: #dbeeff;
+
+  border: 2px solid white;
+
+  user-select: none;
+
+  -webkit-user-drag: none;
+}
+
+.photo-number {
+  margin-top: 9px;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  color: var(--blue-dark);
+}
+
+.photo-controls {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-top: 13px;
+}
+
+.photo-btn {
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: white;
+
+  color: var(--blue);
+
+  border: 1px solid #b9dcf6;
+
+  font-size: 18px;
+
+  font-weight: 900;
+
+  box-shadow: 0 3px 0 #d7ecfb;
+
+  transition: .15s;
+}
+
+.photo-btn:active {
+  transform: translateY(3px);
+
+  box-shadow: none;
+}
+
+.photo-dots {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 5px;
+}
+
+.photo-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #bbdefb;
+
+  transition: .25s;
+
+  cursor: pointer;
+}
+
+.photo-dot.active {
+  width: 18px;
+
+  border-radius: 20px;
+
+  background: var(--blue);
+}
+
+.swipe-hint {
+  margin-top: 8px;
+
+  font-size: 10px;
+
+  color: #7898b0;
+}
+
+
+/* =========================================================
+   MESSAGE CARD
+========================================================= */
+
+.message-card {
+  width: 100%;
+
+  max-height: 390px;
+
+  margin-top: 14px;
+
+  padding: 20px 16px;
+
+  position: relative;
+
+  overflow-y: auto;
+
+  background:
+    linear-gradient(
+      150deg,
+      #f3faff,
+      #e1f2ff
+    );
+
+  border: 1px solid #c4e2f8;
+
+  border-radius: 23px;
+
+  box-shadow: 0 7px 0 #dcefff;
+
+  scrollbar-width: thin;
+}
+
+.message-card::before,
+.message-card::after {
+  content: "✧";
+
+  position: absolute;
+
+  color: var(--blue);
+
+  font-size: 22px;
+}
+
+.message-card::before {
+  top: 8px;
+  left: 12px;
+}
+
+.message-card::after {
+  right: 12px;
+  bottom: 8px;
+}
+
+.final-sticker {
+  width: 105px;
+  height: 105px;
+
+  object-fit: contain;
+
+  margin-bottom: 8px;
+}
+
+.message-card h2 {
+  font-size: 23px;
+
+  margin-bottom: 11px;
+}
+
+.message-card p {
+  font-family: "Quicksand", sans-serif;
+
+  font-size: 12px;
+
+  line-height: 1.9;
+
+  color: #55758e;
+
+  text-align: left;
+}
+
+
+/* =========================================================
+   TYPING MESSAGE
+========================================================= */
+
+.typing-text {
+  white-space: normal;
+}
+
+.typing-cursor {
+  display: inline-block;
+
+  width: 2px;
+
+  height: 15px;
+
+  margin-left: 2px;
+
+  vertical-align: -2px;
+
+  background: var(--blue);
+
+  animation: cursorBlink .7s infinite;
+}
+
+@keyframes cursorBlink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+
+/* =========================================================
+   FLOATING HEARTS
+========================================================= */
+
+.float-heart {
+  position: fixed;
+
+  z-index: 10;
+
+  bottom: -40px;
+
+  pointer-events: none;
+
+  animation:
+    floatUp 4s linear forwards;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 0;
+
+    transform:
+      translateY(0)
+      rotate(0);
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translateY(-105vh)
+      rotate(40deg);
+  }
+}
+
+
+/* =========================================================
+   HIDDEN
+========================================================= */
+
+.hidden {
+  display: none !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 420px) {
+
+  body {
+    padding: 9px;
+  }
+
+  .app {
+    max-width: 365px;
+  }
+
+  .page {
+    min-height: 505px;
+
+    padding:
+      24px
+      18px;
+  }
+
+  .photo-slide img {
+    height: 350px;
+  }
+
+  .message-card {
+    max-height: 370px;
+  }
+}
+
+
+@media (max-width: 380px) {
+
+  .photo-slide img {
+    height: 330px;
+  }
+
+  .photo-slide {
+    padding: 10px;
+  }
+
+  .message-card {
+    max-height: 350px;
+  }
+}
+
+
+@media (max-height: 720px) {
+
+  body {
+    align-items: start;
+  }
+
+  .app {
+    margin: 6px auto;
+  }
+
+  .page {
+    min-height: 475px;
+  }
+
+  .photo-slide img {
+    height: 340px;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+
+    transition-duration: .01ms !important;
+  }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     MUSIC
+========================================================= -->
+
+<audio
+  id="bgMusic"
+  src="music.mp3"
+  loop
+  preload="auto">
+</audio>
+
+
+<!-- =========================================================
+     CONFETTI
+========================================================= -->
+
+<canvas
+  id="confettiCanvas"
+  aria-hidden="true">
+</canvas>
+
+
+<!-- =========================================================
+     APP
+========================================================= -->
+
+<main class="app">
+
+
+<!-- =========================================================
+     TOP BAR
+========================================================= -->
+
+<header class="topbar">
+
+  <div class="brand">
+    <span class="top-heart">
+      💙
+      <span id="topHeartPercent">0%</span>
+    </span>
+  </div>
+
+  <div
+    class="counter"
+    id="counter">
+    01 / 07
+  </div>
+
+</header>
+
+
+<div class="progress">
+
+  <div
+    class="progress-fill"
+    id="progressFill">
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     PAGE 1 - OPENING
+========================================================= -->
+
+<section
+  class="page active"
+  id="page1">
+
+  <div class="tag">
+    a tiny surprise for you
+  </div>
+
+
+  <div class="sticker-wrap">
+
+    <img
+      class="sticker"
+      src="icon1.webp"
+      alt="Stiker pembuka">
+
+  </div>
+
+
+  <h1>
+    hei,
+    <span>sayang!</span>
+    <br>
+    ada sesuatu buat kamu nih ♡
+  </h1>
+
+
+  <button
+    class="primary"
+    onclick="startSurprise()">
+
+    open my surprise →
+
+  </button>
+
+
+  <p class="note">
+    ♡ made with love, just for you ♡
+  </p>
+
+</section>
+
+
+<!-- =========================================================
+     PAGE 2 - PASSWORD
+========================================================= -->
+
+<section
+  class="page"
+  id="page2">
+
+  <div class="tag">
+    secret access
+  </div>
+
+
+  <div class="password-card">
+
+    <div class="lock-icon">
+      🔐
+    </div>
+
+
+    <h1>
+      what's the
+      <span>password?</span>
+    </h1>
+
+
+    <p class="description">
+     masukkan pin rahasia untuk membuak sesuatu yang spesial ♡
+    </p>
+
+
+    <div
+      class="pin-display"
+      id="pinDisplay">
+
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+
+    </div>
+
+
+    <div class="keypad">
+
+      <button
+        class="key"
+        onclick="pressKey('1')">
+        1
+      </button>
+
+      <button
+        class="key"
+        onclick="pressKey('2')">
+        2
+      </button>
+
+      <button
+        class="key"
+        onclick="pressKey('3')">
+        3
+      </button>
+
+      <button
+        class="key"
+        onclick="pressKey('4')">
+        4
+      </button>
+
+      <button
+        class="key"
+        onclick="pressKey('5')">
+        5
+      </button>
+
+      <button
+        class="key"
+        onclick="pressKey('6')">
+        6
+      </button>
+
+      <button
+        class="key"
+        onclick="pressKey('7')">
+        7
+      </button>
+
+      <button
+        class="key"
+        onclick="pressKey('8')">
+        8
+      </button>
+
+      <button
+        class="key"
+        onclick="pressKey('9')">
+        9
+      </button>
+
+      <button
+        class="key clear"
+        onclick="clearPin()">
+        C
+      </button>
+
+      <button
+        class="key"
+        onclick="pressKey('0')">
+        0
+      </button>
+
+      <button
+        class="key enter"
+        onclick="checkPin()">
+        ✓
+      </button>
+
+    </div>
+
+
+    <div
+      class="pin-message"
+      id="pinMessage">
+
+      clue: tanggal kita awal kenal ♡
+
+    </div>
+
+  </div>
+
+
+  <button
+    class="secondary"
+    onclick="goToPage(1)">
+
+    ← back
+
+  </button>
+
+</section>
+
+
+<!-- =========================================================
+     PAGE 3 - FOTO
+========================================================= -->
+
+<section
+  class="page photo-page"
+  id="page3">
+
+  <div class="tag">
+    little memories
+  </div>
+
+
+  <h1>
+    our little
+    <span>moments ♡</span>
+  </h1>
+
+
+  <div
+    class="photo-slider"
+    id="photoSlider">
+
+    <div
+      class="photo-track"
+      id="photoTrack">
+
+
+      <div class="photo-slide">
+
+        <img
+          src="foto1.jpg"
+          alt="Foto 1"
+          draggable="false">
+
+        <div class="photo-number">
+          PHOTO 01 / 08
+        </div>
+
+      </div>
+
+
+      <div class="photo-slide">
+
+        <img
+          src="foto2.jpg"
+          alt="Foto 2"
+          draggable="false">
+
+        <div class="photo-number">
+          PHOTO 02 / 08
+        </div>
+
+      </div>
+
+
+      <div class="photo-slide">
+
+        <img
+          src="foto3.jpg"
+          alt="Foto 3"
+          draggable="false">
+
+        <div class="photo-number">
+          PHOTO 03 / 08
+        </div>
+
+      </div>
+
+
+      <div class="photo-slide">
+
+        <img
+          src="foto4.jpg"
+          alt="Foto 4"
+          draggable="false">
+
+        <div class="photo-number">
+          PHOTO 04 / 08
+        </div>
+
+      </div>
+
+
+      <div class="photo-slide">
+
+        <img
+          src="foto5.jpg"
+          alt="Foto 5"
+          draggable="false">
+
+        <div class="photo-number">
+          PHOTO 05 / 08
+        </div>
+
+      </div>
+
+
+      <div class="photo-slide">
+
+        <img
+          src="foto6.jpg"
+          alt="Foto 6"
+          draggable="false">
+
+        <div class="photo-number">
+          PHOTO 06 / 08
+        </div>
+
+      </div>
+
+
+      <div class="photo-slide">
+
+        <img
+          src="foto7.jpg"
+          alt="Foto 7"
+          draggable="false">
+
+        <div class="photo-number">
+          PHOTO 07 / 08
+        </div>
+
+      </div>
+
+
+      <div class="photo-slide">
+
+        <img
+          src="foto8.jpg"
+          alt="Foto 8"
+          draggable="false">
+
+        <div class="photo-number">
+          PHOTO 08 / 08
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+  <div class="photo-controls">
+
+    <button
+      class="photo-btn"
+      onclick="prevPhoto()">
+      ←
+    </button>
+
+
+    <div
+      class="photo-dots"
+      id="photoDots">
+    </div>
+
+
+    <button
+      class="photo-btn"
+      onclick="nextPhoto()">
+      →
+    </button>
+
+  </div>
+
+
+  <p class="swipe-hint">
+    ✦ swipe untuk melihat foto berikutnya ✦
+  </p>
+
+
+  <button
+    class="primary"
+    onclick="goToPage(4)">
+
+    continue ♡
+
+  </button>
+
+
+  <button
+    class="secondary"
+    onclick="goToPage(2)">
+
+    ← back
+
+  </button>
+
+</section>
+
+
+<!-- =========================================================
+     PAGE 4 - ENVELOPE
+========================================================= -->
+
+<section
+  class="page"
+  id="page4">
+
+  <div class="tag">
+    sealed with love
+  </div>
+
+
+  <h1>
+    you've got
+    <span>mail!</span>
+  </h1>
+
+
+  <p class="description">
+    tap bagian tengahnya untuk membuka suratnya.
+  </p>
+
+
+  <div class="envelope-area">
+
+    <div
+      class="envelope"
+      id="envelope"
+
+      role="button"
+      tabindex="0"
+
+      aria-label="Buka amplop"
+
+      onclick="openEnvelope()"
+
+      onkeydown="
+        if(event.key === 'Enter' || event.key === ' '){
+          event.preventDefault();
+          openEnvelope();
+        }
+      ">
+
+
+      <div class="env-back"></div>
+
+
+      <div class="letter">
+
+        <img
+          src="icon2.webp"
+          alt="Stiker surat">
+
+        <p>
+         my little boy ♡
+        </p>
+
+      </div>
+
+
+      <div class="env-front"></div>
+
+      <div class="env-flap"></div>
+
+      <div class="seal">
+        ♥
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+  <p
+    class="tap-hint"
+    id="tapHint">
+
+    ✧ tap the envelope ✧
+
+  </p>
+
+
+  <button
+    class="primary hidden"
+    id="continueButton"
+    onclick="goToPage(5)">
+
+    read my message ♡
+
+  </button>
+
+
+  <button
+    class="secondary"
+    onclick="goToPage(3)">
+
+    ← back
+
+  </button>
+
+</section>
+
+
+<!-- =========================================================
+     PAGE 5 - MESSAGE
+========================================================= -->
+
+<section
+  class="page"
+  id="page5">
+
+  <div class="tag">
+    a message from my heart
+  </div>
+
+
+  <h1>
+    a little note
+    <span>for you</span>
+  </h1>
+
+
+  <div class="message-card">
+
+    <img
+      class="final-sticker"
+      src="icon3.webp"
+      alt="Stiker pesan">
+
+
+    <h2>
+      sayangg ♡
+    </h2>
+
+
+    <p
+      class="typing-text"
+      id="typingText">
+
+    </p>
+
+  </div>
+
+
+  <button
+    class="primary"
+    id="surpriseButton"
+    onclick="revealSurprise()">
+
+    open the final gift
+
+  </button>
+
+
+  <button
+    class="secondary"
+    onclick="goToPage(3)">
+
+    ← back to photos
+
+  </button>
+
+</section>
+
+
+<!-- =========================================================
+     PAGE 6 - FINAL
+========================================================= -->
+
+<section
+  class="page"
+  id="page6">
+
+  <div class="tag">
+    one last thing
+  </div>
+
+
+  <div class="sticker-wrap">
+
+    <img
+      class="sticker"
+      src="icon4.webp"
+      alt="Final sticker">
+
+  </div>
+
+
+  <h1>
+    you are
+    <span>special ♡</span>
+  </h1>
+
+
+  <p class="description">
+
+    thank you for being you. 💙
+
+  </p>
+
+
+  <button
+    class="primary"
+    onclick="finishSurprise()">
+
+  i love you ♡
+
+  </button>
+
+
+  <button
+    class="secondary"
+    onclick="goToPage(5)">
+
+    ← back
+
+  </button>
+
+</section>
+
+
+</main>
+
+
+<script>
+
+/* =========================================================
+   ELEMENT
+========================================================= */
+
+const counter =
+  document.getElementById("counter");
+
+const progressFill =
+  document.getElementById("progressFill");
+
+const envelope =
+  document.getElementById("envelope");
+
+const continueButton =
+  document.getElementById("continueButton");
+
+const tapHint =
+  document.getElementById("tapHint");
+
+const surpriseButton =
+  document.getElementById("surpriseButton");
+
+const topHeartPercent =
+  document.getElementById("topHeartPercent");
+
+const typingText =
+  document.getElementById("typingText");
+
+const bgMusic =
+  document.getElementById("bgMusic");
+
+
+/* =========================================================
+   TOTAL PAGE
+========================================================= */
+
+const TOTAL_PAGES = 6;
+
+
+/* =========================================================
+   HEART SYSTEM
+   TIDAK LAGI MENCARI ELEMEN LOVE METER
+   YANG SUDAH DIHAPUS
+========================================================= */
+
+let heartValue = 0;
+
+function addHeart(amount = 10) {
+
+  heartValue += amount;
+
+  if (heartValue > 100) {
+    heartValue = 100;
+  }
+
+  updateHeartUI();
+
+  makeHearts(
+    Math.max(
+      3,
+      Math.ceil(amount / 3)
+    )
+  );
+}
+
+
+function updateHeartUI() {
+
+  if (topHeartPercent) {
+
+    topHeartPercent.textContent =
+      heartValue + "%";
+
+  }
+
+}
+
+
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
+
+function goToPage(number) {
+
+  if (
+    number < 1 ||
+    number > TOTAL_PAGES
+  ) {
+    return;
+  }
+
+
+  document
+    .querySelectorAll(".page")
+    .forEach(page => {
+
+      page.classList.remove("active");
+
+    });
+
+
+  const target =
+    document.getElementById(
+      "page" + number
+    );
+
+
+  if (!target) {
+    return;
+  }
+
+
+  target.classList.add("active");
+
+
+  counter.textContent =
+    String(number).padStart(2, "0")
+    + " / "
+    + String(TOTAL_PAGES).padStart(2, "0");
+
+
+  progressFill.style.width =
+    (number / TOTAL_PAGES * 100)
+    + "%";
+
+
+  /*
+     Setiap pindah page,
+     hati bertambah.
+  */
+
+  if (number !== 1) {
+    addHeart(10);
+  }
+
+
+  if (number === 3) {
+
+    updatePhotoSlider();
+
+  }
+
+
+  if (number === 5) {
+
+    startTyping();
+
+  }
+
+
+  if (number === 6) {
+
+    heartValue = 100;
+
+    updateHeartUI();
+
+    makeHearts(30);
+
+  }
+
+}
+
+
+/* =========================================================
+   START OPENING
+========================================================= */
+
+function startSurprise() {
+
+  addHeart(10);
+
+
+  bgMusic.volume = 0.5;
+
+
+  bgMusic
+    .play()
+    .catch(() => {
+
+      console.log(
+        "Musik menunggu interaksi pengguna."
+      );
+
+    });
+
+
+  goToPage(2);
+
+}
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+const CORRECT_PIN = "1807";
+
+let currentPin = "";
+
+let pinChecking = false;
+
+
+/* =========================================================
+   PRESS KEY
+========================================================= */
+
+function pressKey(number) {
+
+  if (pinChecking) {
+    return;
+  }
+
+
+  if (currentPin.length >= 4) {
+    return;
+  }
+
+
+  currentPin += number;
+
+
+  updatePinDisplay();
+
+
+  if (
+    currentPin.length === 4
+  ) {
+
+    setTimeout(() => {
+
+      checkPin();
+
+    }, 180);
+
+  }
+
+}
+
+
+/* =========================================================
+   UPDATE PIN
+========================================================= */
+
+function updatePinDisplay() {
+
+  const dots =
+    document.querySelectorAll(
+      ".pin-dot"
+    );
+
+
+  dots.forEach(
+    (dot, index) => {
+
+      dot.classList.toggle(
+        "active",
+        index < currentPin.length
+      );
+
+      dot.classList.remove(
+        "error"
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   CLEAR PIN
+========================================================= */
+
+function clearPin() {
+
+  currentPin = "";
+
+  updatePinDisplay();
+
+
+  const message =
+    document.getElementById(
+      "pinMessage"
+    );
+
+
+  message.classList.remove(
+    "error"
+  );
+
+
+  message.textContent =
+    "clue: tanggal kita awal kenal ♡";
+
+}
+
+
+/* =========================================================
+   CHECK PIN
+========================================================= */
+
+function checkPin() {
+
+  if (
+    pinChecking ||
+    currentPin.length !== 4
+  ) {
+    return;
+  }
+
+
+  const message =
+    document.getElementById(
+      "pinMessage"
+    );
+
+
+  if (
+    currentPin === CORRECT_PIN
+  ) {
+
+    pinChecking = true;
+
+
+    message.classList.remove(
+      "error"
+    );
+
+
+    message.textContent =
+      "Password benar ♡";
+
+
+    addHeart(15);
+
+
+    setTimeout(() => {
+
+      currentPin = "";
+
+      updatePinDisplay();
+
+      pinChecking = false;
+
+      goToPage(3);
+
+    }, 600);
+
+
+  } else {
+
+    message.classList.add(
+      "error"
+    );
+
+
+    message.textContent =
+      "Password salah, coba lagi ya ♡";
+
+
+    const dots =
+      document.querySelectorAll(
+        ".pin-dot"
+      );
+
+
+    dots.forEach(dot => {
+
+      dot.classList.add(
+        "error"
+      );
+
+    });
+
+
+    setTimeout(() => {
+
+      clearPin();
+
+    }, 700);
+
+  }
+
+}
+
+
+/* =========================================================
+   ENVELOPE
+========================================================= */
+
+let envelopeOpened = false;
+
+
+function openEnvelope() {
+
+  if (
+    envelopeOpened
+  ) {
+    return;
+  }
+
+
+  envelopeOpened = true;
+
+
+  envelope.classList.add(
+    "open"
+  );
+
+
+  tapHint.textContent =
+    "♡ suratnya terbuka untuk kamu ♡";
+
+
+  addHeart(15);
+
+
+  setTimeout(() => {
+
+    continueButton.classList.remove(
+      "hidden"
+    );
+
+
+    makeHearts(12);
+
+  }, 850);
+
+}
+
+
+/* =========================================================
+   PHOTO SLIDER
+========================================================= */
+
+const photoTrack =
+  document.getElementById(
+    "photoTrack"
+  );
+
+const photoSlider =
+  document.getElementById(
+    "photoSlider"
+  );
+
+const photoDots =
+  document.getElementById(
+    "photoDots"
+  );
+
+
+const TOTAL_PHOTOS = 8;
+
+let currentPhoto = 0;
+
+
+/* =========================================================
+   CREATE PHOTO DOTS
+========================================================= */
+
+for (
+  let i = 0;
+  i < TOTAL_PHOTOS;
+  i++
+) {
+
+  const dot =
+    document.createElement(
+      "button"
+    );
+
+
+  dot.type = "button";
+
+  dot.className =
+    "photo-dot";
+
+
+  dot.setAttribute(
+    "aria-label",
+    "Foto " + (i + 1)
+  );
+
+
+  dot.addEventListener(
+    "click",
+    () => {
+
+      currentPhoto = i;
+
+      updatePhotoSlider();
+
+      addHeart(3);
+
+    }
+  );
+
+
+  photoDots.appendChild(dot);
+
+}
+
+
+/* =========================================================
+   UPDATE PHOTO
+========================================================= */
+
+function updatePhotoSlider() {
+
+  if (!photoTrack) {
+    return;
+  }
+
+
+  photoTrack.style.transform =
+    `translateX(-${currentPhoto * 100}%)`;
+
+
+  const dots =
+    document.querySelectorAll(
+      ".photo-dot"
+    );
+
+
+  dots.forEach(
+    (dot, index) => {
+
+      dot.classList.toggle(
+        "active",
+        index === currentPhoto
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   NEXT PHOTO
+========================================================= */
+
+function nextPhoto() {
+
+  if (
+    currentPhoto <
+    TOTAL_PHOTOS - 1
+  ) {
+
+    currentPhoto++;
+
+    updatePhotoSlider();
+
+    addHeart(3);
+
+  }
+
+}
+
+
+/* =========================================================
+   PREVIOUS PHOTO
+========================================================= */
+
+function prevPhoto() {
+
+  if (
+    currentPhoto > 0
+  ) {
+
+    currentPhoto--;
+
+    updatePhotoSlider();
+
+    addHeart(3);
+
+  }
+
+}
+
+
+/* =========================================================
+   SWIPE PHOTO
+========================================================= */
+
+let touchStartX = 0;
+
+let touchEndX = 0;
+
+
+photoSlider.addEventListener(
+  "touchstart",
+  event => {
+
+    touchStartX =
+      event.changedTouches[0].screenX;
+
+  },
+  {
+    passive: true
+  }
+);
+
+
+photoSlider.addEventListener(
+  "touchend",
+  event => {
+
+    touchEndX =
+      event.changedTouches[0].screenX;
+
+
+    handleSwipe();
+
+  },
+  {
+    passive: true
+  }
+);
+
+
+function handleSwipe() {
+
+  const distance =
+    touchEndX - touchStartX;
+
+
+  if (
+    Math.abs(distance) < 45
+  ) {
+    return;
+  }
+
+
+  if (distance < 0) {
+
+    nextPhoto();
+
+  } else {
+
+    prevPhoto();
+
+  }
+
+}
+
+
+/* =========================================================
+   TYPING ANIMATION
+========================================================= */
+
+const messageContent = `hallo sayangg,
+
+seperti biasaa yaa, aku ada web lucu imut buat kamu. di web inii aku mau bilang klo 3 hari gaada kmu rasanya nano nano😁
+
+yg biasanya suka vc dimanapun dan kapanpun, yg biasanya ada org tengil yg suka bikin naik darah, sukaa bikin kesel, suka bikin salting, tpi smnjak 3 hari ini nggaada kamu disitulah aku sadar, kalo mungkin aku sudah benar benar jatuh cinta ayy, sesayang ituu, se kangen itu, seberharga itu kehadiranmuu.
+
+apalagi dgn keterbatasan waktu komunikasi kita, ditambah aku inget klo ini sudah bulan ke 11 dan sebentar lgi km bakal ninggalin tempat inii, tempat yg pertama kali temuin kitaa, yaa gitu lahh, ngga bisa berkata kata😞
+
+banyak ketakutan banyak pikiran yg skrg sudah muncul. gmn ketika kamu disana nantii, kalo sakit gimana, klo butuh apa apa gimana, makannya enak nggak yaa, kehujanan nggak yaa, dan masi banyak lagii.
+
+mungkin klo disini aku masi bisa cukup tenang, kmu sakit aku berusaha selalu adaa, kmu butuh aku selalu berusaha juga buat ada, bahkan saat km gaada kabar pun dgn aku lewat di depan markas kamu sdh cukup buat aku tenang, sayang.
+
+jadi memang aku perlu mulai belajar banyak hall. seperti prinsip ku diawal, ketika aku suah siap untum jatuh cinta sama kmu, itu berarti aku juga harus siap dg sgala baik buruknya.
+
+aku tauu kmu kuatt, aku tauu kmu bisaa, tapi dimataku kmu ttp jadi little boyy, cowo manjaa, cowo tengil, dan aku begitu menyayangi mu🥹❤️
+
+di sisa sisa waktu inii, sblm kamu pergiii, kitaa manfaatkan smua sama sama yaa.. izinin aku buat sayang sama kmu lbh besar dr bisanya.
+
+huhuhu aku ngetik sambil nangiss. terimakasih untuk smua cinta yg kmu kasih, smoga itu bukan cuma sementara yaaa, smoga kita bisa jalan sama sama sampai nanntii, wujudin smua mimpi kita❤️❤️ satuu hall yg harus dan perlu km tau klo aku sangat mencintaimu❤️`;
+
+
+let typingStarted = false;
+
+let typingTimer = null;
+
+
+function startTyping() {
+
+  if (
+    typingStarted
+  ) {
+    return;
+  }
+
+
+  typingStarted = true;
+
+
+  typingText.innerHTML =
+    '<span class="typing-cursor"></span>';
+
+
+  let index = 0;
+
+
+  function typeNext() {
+
+    if (
+      index >= messageContent.length
+    ) {
+
+      typingText.innerHTML =
+        messageContent.replace(
+          /\n/g,
+          "<br><br>"
+        );
+
+      return;
+
+    }
+
+
+    const current =
+      messageContent.substring(
+        0,
+        index + 1
+      );
+
+
+    typingText.innerHTML =
+      current
+        .replace(
+          /\n/g,
+          "<br><br>"
+        )
+      +
+      '<span class="typing-cursor"></span>';
+
+
+    index++;
+
+
+    let speed = 22;
+
+
+    if (
+      messageContent[index - 1] === "." ||
+      messageContent[index - 1] === "!" ||
+      messageContent[index - 1] === "?"
+    ) {
+
+      speed = 120;
+
+    }
+
+
+    if (
+      messageContent[index - 1] === ","
+    ) {
+
+      speed = 65;
+
+    }
+
+
+    typingTimer =
+      setTimeout(
+        typeNext,
+        speed
+      );
+
+  }
+
+
+  typeNext();
+
+}
+
+
+/* =========================================================
+   FINAL GIFT
+========================================================= */
+
+let surpriseShown = false;
+
+
+function revealSurprise() {
+
+  if (
+    surpriseShown
+  ) {
+    return;
+  }
+
+
+  surpriseShown = true;
+
+
+  surpriseButton.textContent =
+    "Sending you lots of love ♡";
+
+
+  addHeart(15);
+
+
+  makeHearts(24);
+
+
+  launchConfetti(
+    260,
+    window.innerWidth / 2,
+    window.innerHeight * .43
+  );
+
+
+  setTimeout(() => {
+
+    launchConfetti(
+      100,
+      window.innerWidth * .12,
+      window.innerHeight * .4
+    );
+
+
+    launchConfetti(
+      100,
+      window.innerWidth * .88,
+      window.innerHeight * .4
+    );
+
+  }, 250);
+
+
+  setTimeout(() => {
+
+    launchConfetti(
+      120,
+      window.innerWidth / 2,
+      window.innerHeight * .2
+    );
+
+  }, 650);
+
+
+  setTimeout(() => {
+
+    goToPage(6);
+
+  }, 1800);
+
+}
+
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+function finishSurprise() {
+
+  heartValue = 100;
+
+  updateHeartUI();
+
+
+  makeHearts(35);
+
+
+  launchConfetti(
+    300,
+    window.innerWidth / 2,
+    window.innerHeight * .4
+  );
+
+
+  setTimeout(() => {
+
+    goToPage(7);
+
+  }, 700);
+
+}
+
+
+/* =========================================================
+   RESTART
+========================================================= */
+
+function restartSurprise() {
+
+  heartValue = 0;
+
+  updateHeartUI();
+
+
+  currentPin = "";
+
+  pinChecking = false;
+
+  updatePinDisplay();
+
+
+  currentPhoto = 0;
+
+  updatePhotoSlider();
+
+
+  envelopeOpened = false;
+
+  envelope.classList.remove(
+    "open"
+  );
+
+
+  continueButton.classList.add(
+    "hidden"
+  );
+
+
+  tapHint.textContent =
+    "✧ tap the envelope ✧";
+
+
+  surpriseShown = false;
+
+
+  surpriseButton.textContent =
+    "Open the final gift";
+
+
+  typingStarted = false;
+
+
+  if (typingTimer) {
+
+    clearTimeout(
+      typingTimer
+    );
+
+  }
+
+
+  typingText.innerHTML = "";
+
+
+  goToPage(1);
+
+}
+
+
+/* =========================================================
+   FLOATING HEARTS
+========================================================= */
+
+function makeHearts(
+  amount = 10
+) {
+
+  const symbols = [
+    "♥",
+    "♡",
+    "💙",
+    "✦",
+    "✧"
+  ];
+
+
+  const colors = [
+    "#1976d2",
+    "#42a5f5",
+    "#64b5f6",
+    "#0d47a1",
+    "#90caf9"
+  ];
+
+
+  for (
+    let i = 0;
+    i < amount;
+    i++
+  ) {
+
+    setTimeout(() => {
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+
+      item.className =
+        "float-heart";
+
+
+      item.textContent =
+        symbols[
+          Math.floor(
+            Math.random()
+            * symbols.length
+          )
+        ];
+
+
+      item.style.color =
+        colors[
+          Math.floor(
+            Math.random()
+            * colors.length
+          )
+        ];
+
+
+      item.style.left =
+        Math.random() * 95
+        + "vw";
+
+
+      item.style.fontSize =
+        14
+        + Math.random() * 23
+        + "px";
+
+
+      item.style.animationDuration =
+        2.5
+        + Math.random() * 2
+        + "s";
+
+
+      document.body.appendChild(
+        item
+      );
+
+
+      setTimeout(() => {
+
+        item.remove();
+
+      }, 5000);
+
+    }, i * 75);
+
+  }
+
+}
+
+
+/* =========================================================
+   CONFETTI
+========================================================= */
+
+const canvas =
+  document.getElementById(
+    "confettiCanvas"
+  );
+
+const ctx =
+  canvas.getContext("2d");
+
+
+let particles = [];
+
+let animationRunning = false;
+
+let lastFrame = 0;
+
+
+const palette = [
+
+  "#1976d2",
+  "#0d47a1",
+  "#42a5f5",
+  "#90caf9",
+  "#ffffff",
+  "#bbdefb",
+  "#1565c0"
+
+];
+
+
+/* =========================================================
+   RESIZE CANVAS
+========================================================= */
+
+function resizeCanvas() {
+
+  const dpr =
+    Math.min(
+      window.devicePixelRatio || 1,
+      2
+    );
+
+
+  canvas.width =
+    window.innerWidth * dpr;
+
+
+  canvas.height =
+    window.innerHeight * dpr;
+
+
+  canvas.style.width =
+    window.innerWidth + "px";
+
+
+  canvas.style.height =
+    window.innerHeight + "px";
+
+
+  ctx.setTransform(
+    dpr,
+    0,
+    0,
+    dpr,
+    0,
+    0
+  );
+
+}
+
+
+window.addEventListener(
+  "resize",
+  resizeCanvas
+);
+
+
+resizeCanvas();
+
+
+/* =========================================================
+   LAUNCH CONFETTI
+========================================================= */
+
+function launchConfetti(
+  amount,
+  originX,
+  originY
+) {
+
+  const total =
+    window.innerWidth < 600
+      ? Math.ceil(
+          amount * .7
+        )
+      : amount;
+
+
+  for (
+    let i = 0;
+    i < total;
+    i++
+  ) {
+
+    const angle =
+      Math.random()
+      * Math.PI
+      * 2;
+
+
+    const speed =
+      4
+      + Math.random() * 12;
+
+
+    const roll =
+      Math.random();
+
+
+    particles.push({
+
+      x:
+        originX
+        + (Math.random() - .5)
+        * 35,
+
+      y:
+        originY
+        + (Math.random() - .5)
+        * 25,
+
+      vx:
+        Math.cos(angle)
+        * speed,
+
+      vy:
+        Math.sin(angle)
+        * speed
+        - 3,
+
+      gravity:
+        .12
+        + Math.random() * .13,
+
+      drag:
+        .987
+        + Math.random() * .009,
+
+      size:
+        4
+        + Math.random() * 7,
+
+      width:
+        4
+        + Math.random() * 7,
+
+      height:
+        6
+        + Math.random() * 11,
+
+      rotation:
+        Math.random()
+        * Math.PI
+        * 2,
+
+      spin:
+        (Math.random() - .5)
+        * .25,
+
+      color:
+        palette[
+          Math.floor(
+            Math.random()
+            * palette.length
+          )
+        ],
+
+      shape:
+        roll < .22
+          ? "heart"
+          : roll < .45
+          ? "circle"
+          : "rect",
+
+      life:
+        180
+        + Math.random() * 100,
+
+      alpha: 1
+
+    });
+
+  }
+
+
+  if (
+    particles.length > 1000
+  ) {
+
+    particles.splice(
+      0,
+      particles.length - 1000
+    );
+
+  }
+
+
+  if (
+    !animationRunning
+  ) {
+
+    animationRunning = true;
+
+    lastFrame = 0;
+
+    requestAnimationFrame(
+      animateConfetti
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   DRAW HEART
+========================================================= */
+
+function drawHeart(size) {
+
+  ctx.beginPath();
+
+
+  ctx.moveTo(
+    0,
+    size * .3
+  );
+
+
+  ctx.bezierCurveTo(
+
+    -size,
+    -size * .35,
+
+    -size * .65,
+    -size,
+
+    0,
+    -size * .45
+
+  );
+
+
+  ctx.bezierCurveTo(
+
+    size * .65,
+    -size,
+
+    size,
+    -size * .35,
+
+    0,
+    size * .3
+
+  );
+
+
+  ctx.fill();
+
+}
+
+
+/* =========================================================
+   ANIMATE CONFETTI
+========================================================= */
+
+function animateConfetti(
+  timestamp
+) {
+
+  if (
+    timestamp - lastFrame < 16
+  ) {
+
+    requestAnimationFrame(
+      animateConfetti
+    );
+
+    return;
+
+  }
+
+
+  lastFrame = timestamp;
+
+
+  ctx.clearRect(
+    0,
+    0,
+    window.innerWidth,
+    window.innerHeight
+  );
+
+
+  for (
+    let i = particles.length - 1;
+    i >= 0;
+    i--
+  ) {
+
+    const p =
+      particles[i];
+
+
+    p.vx *= p.drag;
+
+
+    p.vy =
+      p.vy * p.drag
+      + p.gravity;
+
+
+    p.x += p.vx;
+
+    p.y += p.vy;
+
+    p.rotation += p.spin;
+
+    p.life--;
+
+
+    if (
+      p.life < 35
+    ) {
+
+      p.alpha =
+        Math.max(
+          0,
+          p.life / 35
+        );
+
+    }
+
+
+    ctx.save();
+
+
+    ctx.globalAlpha =
+      p.alpha;
+
+
+    ctx.translate(
+      p.x,
+      p.y
+    );
+
+
+    ctx.rotate(
+      p.rotation
+    );
+
+
+    ctx.fillStyle =
+      p.color;
+
+
+    if (
+      p.shape === "circle"
+    ) {
+
+      ctx.beginPath();
+
+      ctx.arc(
+        0,
+        0,
+        p.size / 2,
+        0,
+        Math.PI * 2
+      );
+
+      ctx.fill();
+
+
+    } else if (
+      p.shape === "heart"
+    ) {
+
+      drawHeart(
+        p.size
+      );
+
+
+    } else {
+
+      ctx.fillRect(
+
+        -p.width / 2,
+        -p.height / 2,
+
+        p.width,
+        p.height
+
+      );
+
+    }
+
+
+    ctx.restore();
+
+
+    if (
+      p.life <= 0 ||
+      p.y >
+      window.innerHeight + 50
+    ) {
+
+      particles.splice(
+        i,
+        1
+      );
+
+    }
+
+  }
+
+
+  if (
+    particles.length > 0
+  ) {
+
+    requestAnimationFrame(
+      animateConfetti
+    );
+
+  } else {
+
+    ctx.clearRect(
+      0,
+      0,
+      window.innerWidth,
+      window.innerHeight
+    );
+
+
+    animationRunning = false;
+
+  }
+
+}
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+updateHeartUI();
+
+updatePhotoSlider();
+
+</script>
+
+</body>
+</html>
